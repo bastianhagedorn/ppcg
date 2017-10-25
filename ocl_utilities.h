@@ -17,6 +17,7 @@ const char *opencl_error_string(cl_int error);
  * If this fails or if use_gpu is not set, then it tries to use the CPU.
  */
 cl_device_id opencl_create_device(int use_gpu);
+cl_device_id opencl_create_device_with_ids(int platform_id, int device_id);
 
 /* Create an OpenCL program from a string and compile it.
  */

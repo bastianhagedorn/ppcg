@@ -106,6 +106,37 @@ cl_device_id opencl_create_device(int use_gpu)
 	return dev;
 }
 
+cl_device_id opencl_create_device_using_ids(int platform_id, int device_id)
+{
+    cl_uint platformCount;
+    cl_platform_id* platforms;
+    cl_uint deviceCount;
+    cl_device_id* devices;
+
+    // get all platforms
+    clGetPlatformIDs(0, NULL, &platformCount);
+    platforms = (cl_platform_id*) malloc(sizeof(cl_platform_id) * platformCount);
+    clGetPlatformIDs(platformCount, platforms, NULL);	
+
+    if(platform_id >= platformCount) {
+        fprintf(stderr, "Platform with ID %d not found.\n", platform_id);        
+        exit(1);
+    }
+
+    // get all devices
+    clGetDeviceIDs(platforms[platform_id], CL_DEVICE_TYPE_ALL, 0, NULL, &deviceCount);
+    devices = (cl_device_id*) malloc(sizeof(cl_device_id) * deviceCount);
+    clGetDeviceIDs(platforms[platform_id], CL_DEVICE_TYPE_ALL, deviceCount, devices, NULL);
+
+    if(device_id >= deviceCount) {
+        fprintf(stderr, "Device with ID %d not found.\n", device_id);        
+        exit(1);
+    }
+
+    free(platforms);
+    return devices[device_id];
+}
+
 /* Create an OpenCL program from a string and compile it.
  */
 cl_program opencl_build_program_from_string(cl_context ctx, cl_device_id dev,
