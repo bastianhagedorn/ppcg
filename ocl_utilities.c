@@ -106,7 +106,7 @@ cl_device_id opencl_create_device(int use_gpu)
 	return dev;
 }
 
-cl_device_id opencl_create_device_using_ids(int platform_id, int device_id)
+cl_device_id opencl_create_device_with_ids(int platform_id, int device_id)
 {
     cl_uint platformCount;
     cl_platform_id* platforms;
